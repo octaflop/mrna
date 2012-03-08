@@ -1,0 +1,16 @@
+Flask==0.8
+Flask-Mail==0.6.1
+Flask-WTF==0.5.4
+Jinja2==2.6
+Markdown==2.1.1
+WTForms==1.0.1
+Werkzeug==0.8.3
+blinker==1.2
+chardet==1.0.1
+distribute==0.6.24
+gunicorn==0.14.1
+lamson==1.1
+lockfile==0.9.1
+mock==0.8.0
+nose==1.1.2
+python-daemon==1.6

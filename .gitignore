@@ -5,6 +5,7 @@ distribute/
 lib/
 local/
 local
+man/
 bin/
 
 
