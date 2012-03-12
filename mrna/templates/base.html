@@ -6,9 +6,28 @@
     </title>
 
   </head>
-  <h1>Contact Us</h1>
   <body>
-    {{ content }} 
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}
+  <h1>Contact Us</h1>
+    {% from "_formhelpers.html" import render_field %}
+    <form method=post action="/contact/">
+      <dl>
+        {{ render_field(form.subject) }}
+        {{ render_field(form.sender) }}
+        {{ render_field(form.message) }}
+      </dl>
+      <input type='submit' value='Send Message' />
+    </form>
+  {% endblock %}
   </body>
 </html>
 
