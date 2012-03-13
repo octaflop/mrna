@@ -14,23 +14,30 @@ from decorators import template
 def contact_form():
     form = ContactForm(request.form)
     msg = {}
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST':
+        if form.nospam.data == '2':
     #if form.validate_on_submit():
-        subject = form.subject.data
-        message = form.message.data
-        sender = form.sender.data
-        msg = dict(sender=sender, subject=subject, message=message)
-        ret = mail_admin(msg, mail)
-        if ret['succ_code'] != 0:
-            flash("There was an error sending this message")
-            return redirect(url_for('contact_success'))
-        else:
-            flash("Message %(subject)s was sent successfully by %(email)s" %\
-                    {
-                        "subject" : msg.subject,
-                        "email" : msg.sender,
-                    })
-            return redirect(url_for('contact_success'))
+            subject = form.subject.data
+            message = form.message.data
+            sender = form.sender.data
+            msg = dict(sender=sender, subject=subject, message=message)
+            print "subject: %s" % msg['subject']
+            print "sender: %s" % msg['sender']
+            print "message: %s" % msg['message']
+            print "sending message now"
+            ret = mail_admin(msg, mail)
+            if ret['succ_code'] != 0:
+                flash("There was an error sending this message")
+                print "There was an error sending this message"
+                return redirect(url_for('contact_success'))
+            else:
+                flash("Message: %(subject)s was sent successfully by %(email)s" %\
+                        {
+                            "subject" : msg['subject'],
+                            "email" : msg['sender'],
+                        })
+                print "successfully sent to SMTP"
+                return redirect(url_for('contact_success'))
     return render_template('base.html', msg=msg, form=form)
 
 @app.route('/contact/success/')

@@ -12,5 +12,8 @@ class ContactForm(Form):
     sender = TextField(_("Your Contact Email Address"),\
             [validators.required(),\
             validators.length(min=3, max=100),\
-            validators.Email()])
+            validators.Email(message=u'Invalid email address given')])
     message = TextAreaField(_("Message"))
+    nospam = TextField(_("Please answer this question:\n\
+            What is 1+1 = ?\
+            Computers can answer this, but most can't read this."))
