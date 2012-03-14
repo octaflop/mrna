@@ -21,6 +21,7 @@
     {% from "_formhelpers.html" import render_field %}
     <form method=post action="/contact/">
       <dl>
+        {{ form.hidden_tag() }} 
         {{ render_field(form.subject) }}
         {{ render_field(form.sender) }}
         {{ render_field(form.message) }}

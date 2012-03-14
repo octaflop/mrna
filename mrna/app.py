@@ -21,18 +21,16 @@ def _log_mail(msg):
 def contact_form():
     form = ContactForm(request.form)
     msg = {}
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         if form.nospam.data == '2':
-    #if form.validate_on_submit():
             subject = form.subject.data
             message = form.message.data
             sender = form.sender.data
             msg = dict(sender=sender, subject=subject, message=message)
-            _log_mail(msg)
+            ##_log_mail(msg)
             ret = mail_admin(msg, mail)
             if ret['succ_code'] != 0:
                 flash("There was an error sending this message")
-                print "There was an error sending this message"
                 return redirect(url_for('contact_success'))
             else:
                 flash("Message: %(subject)s was sent successfully by %(email)s" %\

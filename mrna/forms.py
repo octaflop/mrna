@@ -6,14 +6,13 @@ from flaskext.babel import gettext as _
 from flaskext.babel import ngettext as _n
 
 class ContactForm(Form):
-    subject = TextField(_("Subject"),\
-                [validators.Required(),\
-                validators.length(min=3, max=200)])
-    sender = TextField(_("Your Contact Email Address"),\
-            [validators.required(),\
-            validators.length(min=3, max=100),\
+    subject = TextField(_("Subject"),
+            [validators.Length(min=3, max=200)])
+    sender = TextField(_("Your Contact Email Address"),
+            [validators.Length(min=3, max=100),
             validators.Email(message=u'Invalid email address given')])
     message = TextAreaField(_("Message"))
     nospam = TextField(_("Please answer this question:\n\
             What is 1+1 = ?\
             Computers can answer this, but most can't read this."))
+
