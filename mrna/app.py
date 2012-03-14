@@ -8,6 +8,13 @@ from views import mail_admin
 from forms import ContactForm
 from decorators import template
 
+def _log_mail(msg):
+    print "subject: %s" % msg['subject']
+    print "sender: %s" % msg['sender']
+    print "message: %s" % msg['message']
+    print "sending message now"
+    return
+
 #from mrna.settings import ADMIN
 #@template('templates/base.html')
 @app.route('/contact/', methods=['GET','POST',])
@@ -21,10 +28,7 @@ def contact_form():
             message = form.message.data
             sender = form.sender.data
             msg = dict(sender=sender, subject=subject, message=message)
-            print "subject: %s" % msg['subject']
-            print "sender: %s" % msg['sender']
-            print "message: %s" % msg['message']
-            print "sending message now"
+            _log_mail(msg)
             ret = mail_admin(msg, mail)
             if ret['succ_code'] != 0:
                 flash("There was an error sending this message")
