@@ -2,9 +2,10 @@ from flask import Flask
 from flaskext.mail import Mail
 app = Flask(__name__)
 mail = Mail(app)
-from flask import request, render_template, url_for, flash, redirect
+from flask import request, render_template, url_for, flash, redirect, session,\
+abort
 
-from views import mail_admin
+from views import mail_admin, warn_admin
 from forms import ContactForm
 from decorators import template
 
@@ -23,8 +24,14 @@ def contact_form():
     msg = {}
     if request.method == 'POST' and form.validate():
         if form.nospam.data == '2':
+            if form.message.data != "8":
+                print "WARN: bot attempted usage on contact form!"
+                warned = warn_admin(request, mail)
+                if warned['succ_code'] != 0:
+                    print "there was an error emailing the report"
+                abort(403)
             subject = form.subject.data
-            message = form.message.data
+            message = form.emessage.data
             sender = form.sender.data
             msg = dict(sender=sender, subject=subject, message=message)
             ##_log_mail(msg)
